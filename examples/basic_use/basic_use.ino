@@ -7,7 +7,7 @@ Co2Meter_K33 k33;
 
 void setup() {
 	Serial.begin(9600);
-	pinMode(13, OUTPUT); // We will use this pin as a read‐indicator Serial.println("What a wonderful day, to read atmospheric CO2 concentrations!");
+	Serial.println("What a wonderful day, to read atmospheric CO2 concentrations!");
 }
 
 void loop() {

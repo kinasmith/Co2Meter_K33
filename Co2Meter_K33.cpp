@@ -21,7 +21,8 @@ Co2Meter_K33::~Co2Meter_K33(){}
 ///////////////////////////////////////////////////////////////////
 // Function : void wakeSensor()
 // Executes : Sends wakeup commands to K33 sensors.
-// Note : THIS COMMAND MUST BE MODIFIED FOR THE SPECIFIC AVR YOU ARE USING // THE REGISTERS ARE HARD‐CODED 
+// Note : THIS COMMAND MUST BE MODIFIED FOR THE SPECIFIC AVR YOU ARE USING 
+// THE REGISTERS ARE HARD‐CODED 
 /////////////////////////////////////////////////////////////////
 void Co2Meter_K33::wakeSensor() {
 	// This command serves as a wakeup to the CO2 sensor, for K33‐ELG/BLG Sensors Only
@@ -106,7 +107,8 @@ double Co2Meter_K33::readCo2() {
 	byte buffer[4] = {0, 0, 0, 0};
 	
 	/*
-		Wire.available() is not nessessary. Implementation is obscure but we leave it in here for portability and to future proof our code
+		Wire.available() is not nessessary. 
+		Implementation is obscure but we leave it in here for portability and to future proof our code
 	*/
 	
 	while (Wire.available()) {
@@ -129,8 +131,8 @@ double Co2Meter_K33::readCo2() {
 	else {
 		// Failure!
 		/*
-				 Checksum failure can be due to a number of factors,
-				 fuzzy electrons, sensor busy, etc.
+			Checksum failure can be due to a number of factors,
+			fuzzy electrons, sensor busy, etc.
 		*/
 		
 		// digitalWrite(13, LOW);

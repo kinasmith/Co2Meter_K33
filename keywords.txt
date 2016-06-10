@@ -1,6 +1,27 @@
-Co2Meter_K33   KEYWORD1
+#######################################
+# Syntax Coloring Map For Co2Meter_K33
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Co2Meter_K33    KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
 wakeSensor  KEYWORD2
 initPoll KEYWORD2
 readCo2   KEYWORD2
 readTemp  KEYWORD2
 readRh  KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################
