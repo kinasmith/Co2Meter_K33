@@ -6,14 +6,20 @@
 //Modified into Arduio Library by Kina Smith <kinasmith.com>
 //06.09.2016
 
-#include "Co2Meter_K33.h"
+#include <inttypes.h>
 #include <Wire.h>
+#include "Arduino.h"
+#include "Co2Meter_K33.h"
 
-//int co2Addr = 0x68; // This is the default address of the CO2 sensor, 7bits shifted left. 
-int co2Addr = 0x7F;  // This is the broadcast address. There is conflicting addresses with the DS1307 RTC
+//int devAddr = 0x68; // This is the default address of the CO2 sensor, 7bits shifted left. 
+// int devAddr = 0x7F;  // This is the broadcast address. There is conflicting addresses with the DS1307 RTC
 
 Co2Meter_K33::Co2Meter_K33() {
-	Wire.begin();
+	devAddr = K33_BLG_ELG_ADDRESS;
+}
+
+Co2Meter_K33::Co2Meter_K33(uint8_t address) {
+	devAddr = address;
 }
 
 Co2Meter_K33::~Co2Meter_K33(){}
@@ -49,7 +55,8 @@ void Co2Meter_K33::wakeSensor() {
 //
 // ///////////////////////////////////////////////////////////////////
 void Co2Meter_K33::initPoll() {
-	Wire.beginTransmission(co2Addr);
+	wakeSensor();
+	Wire.beginTransmission(devAddr);
 	Wire.write(0x11);
 	Wire.write(0x00);
 	Wire.write(0x60);
@@ -57,7 +64,7 @@ void Co2Meter_K33::initPoll() {
 	Wire.write(0xA6);
 	Wire.endTransmission();
 	delay(20);
-	Wire.requestFrom(co2Addr, 2);
+	Wire.requestFrom(devAddr, 2);
 	byte i = 0;
 	byte buffer[2] = {0, 0};
 	while (Wire.available()) {
@@ -71,6 +78,7 @@ void Co2Meter_K33::initPoll() {
 // Returns : The current CO2 Value, -1 if error has occured 
 ///////////////////////////////////////////////////////////////////
 double Co2Meter_K33::readCo2() {
+	wakeSensor();
 	int co2_value = 0;
 	// We will store the CO2 value inside this variable. digitalWrite(13, HIGH);
 	// On most Arduino platforms this pin is used as an indicator light.
@@ -79,7 +87,7 @@ double Co2Meter_K33::readCo2() {
 	/* Begin Write Sequence */
 	//////////////////////////
 	
-	Wire.beginTransmission(co2Addr);
+	Wire.beginTransmission(devAddr);
 	Wire.write(0x22);
 	Wire.write(0x00);
 	Wire.write(0x08);
@@ -103,7 +111,7 @@ double Co2Meter_K33::readCo2() {
 		 and command status byte.
 	*/
 	
-	Wire.requestFrom(co2Addr, 4);
+	Wire.requestFrom(devAddr, 4);
 	byte i = 0;
 	byte buffer[4] = {0, 0, 0, 0};
 	
@@ -146,9 +154,10 @@ double Co2Meter_K33::readCo2() {
 // Returns : The current Temperture Value, -1 if error has occured 
 ///////////////////////////////////////////////////////////////////
 double Co2Meter_K33::readTemp() {
+	wakeSensor();
 	int tempVal = 0;
 	// digitalWrite(13, HIGH);
-	Wire.beginTransmission(co2Addr);
+	Wire.beginTransmission(devAddr);
 	Wire.write(0x22);
 	Wire.write(0x00);
 	Wire.write(0x12);
@@ -156,7 +165,7 @@ double Co2Meter_K33::readTemp() {
 	Wire.endTransmission();
 	delay(20);
 
-	Wire.requestFrom(co2Addr, 4);
+	Wire.requestFrom(devAddr, 4);
 	byte i = 0;
 	byte buffer[4] = {0, 0, 0, 0};
 	while (Wire.available()) {
@@ -186,16 +195,17 @@ double Co2Meter_K33::readTemp() {
 // Returns : The current Rh Value, -1 if error has occured 
 ///////////////////////////////////////////////////////////////////
 double Co2Meter_K33::readRh() {
+	wakeSensor();
 	int tempVal = 0;
 	// digitalWrite(13, HIGH);
-	Wire.beginTransmission(co2Addr);
+	Wire.beginTransmission(devAddr);
 	Wire.write(0x22);
 	Wire.write(0x00);
 	Wire.write(0x14);
 	Wire.write(0x36);
 	Wire.endTransmission();
 	delay(20);
-	Wire.requestFrom(co2Addr, 4);
+	Wire.requestFrom(devAddr, 4);
 	byte i = 0;
 	byte buffer[4] = {0, 0, 0, 0};
 	while (Wire.available()) {

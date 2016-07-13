@@ -11,13 +11,25 @@
 #ifndef Co2Meter_K33_H
 #define Co2Meter_K33_H
 
-#include "Arduino.h"
+#ifdef ARDUINO
+	#if ARDUINO < 100
+		#include "WProgram.h"
+	#else
+		#include "Arduino.h"
+	#endif
+#else
+	#include "ArduinoWrapper.h"
+#endif
 
+#include <Wire.h>
+
+#define K33_BLG_ELG_ADDRESS 0x7F
 
 class Co2Meter_K33
 {
 public:
 	Co2Meter_K33();
+	Co2Meter_K33(uint8_t address);
 	~Co2Meter_K33();
 	void wakeSensor();
 	void initPoll();
@@ -25,8 +37,9 @@ public:
 	double readTemp();
 	double readRh();
 private:
-	int co2Addr;
-
+	int devAddr;
+	int co2_value;
+	int tempVal;
 };
 
 #endif
