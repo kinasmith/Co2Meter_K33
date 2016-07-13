@@ -9,7 +9,8 @@
 #include "Co2Meter_K33.h"
 #include <Wire.h>
 
-int co2Addr = 0x68; // This is the default address of the CO2 sensor, 7bits shifted left.
+//int co2Addr = 0x68; // This is the default address of the CO2 sensor, 7bits shifted left. 
+int co2Addr = 0x7F;  // This is the broadcast address. There is conflicting addresses with the DS1307 RTC
 
 Co2Meter_K33::Co2Meter_K33() {
 	Wire.begin();

@@ -1,5 +1,5 @@
 #include "Co2Meter_K33.h"
-
+// #include <Wire.h>
 Co2Meter_K33 k33;
 
 //In this example we will do a basic read of the CO2 value and checksum verification. 
